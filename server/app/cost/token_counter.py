@@ -1,0 +1,38 @@
+import tiktoken
+from typing import List, Dict
+
+
+def count_tokens(text: str, model: str = "gpt-3.5-turbo") -> int:
+    """Count tokens in a text string"""
+    try:
+        encoding = tiktoken.encoding_for_model(model)
+    except KeyError:
+        encoding = tiktoken.get_encoding("cl100k_base")
+
+    return len(encoding.encode(text))
+
+
+def count_message_tokens(messages: List[Dict[str, str]], model: str = "gpt-3.5-turbo") -> int:
+    """
+    Count tokens in a list of messages for chat completion.
+    Based on OpenAI's token counting logic.
+    """
+    try:
+        encoding = tiktoken.encoding_for_model(model)
+    except KeyError:
+        encoding = tiktoken.get_encoding("cl100k_base")
+
+    tokens_per_message = 3  # every message follows <|start|>{role/name}\n{content}<|end|>\n
+    tokens_per_name = 1  # if there's a name, the role is omitted
+
+    num_tokens = 0
+    for message in messages:
+        num_tokens += tokens_per_message
+        for key, value in message.items():
+            num_tokens += len(encoding.encode(str(value)))
+            if key == "name":
+                num_tokens += tokens_per_name
+
+    num_tokens += 3  # every reply is primed with <|start|>assistant<|message|>
+
+    return num_tokens

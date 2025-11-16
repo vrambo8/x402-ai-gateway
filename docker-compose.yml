@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      X402_FACILITATOR_URL: ${X402_FACILITATOR_URL:-https://x402.org/facilitator}
+      X402_WALLET_ADDRESS: ${X402_WALLET_ADDRESS}
+      X402_CHAIN_ID: ${X402_CHAIN_ID:-84532}
+      API_PORT: 8000
+      API_HOST: 0.0.0.0
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      DEV_MODE: ${DEV_MODE:-true}
+    restart: unless-stopped

@@ -1,0 +1,12 @@
+fastapi>=0.121.1
+uvicorn[standard]>=0.38.0
+pydantic>=2.12.4
+pydantic-settings>=2.11.0
+tiktoken>=0.12.0
+structlog>=25.5.0
+python-dotenv>=1.2.1
+python-json-logger>=4.0.0
+x402>=0.2.1
+cdp-sdk>=1.33.2
+eth-account>=0.13.7
+aiohttp>=3.9.0
