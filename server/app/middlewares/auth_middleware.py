@@ -172,7 +172,7 @@ async def verify_x402_payment(request: Request, call_next):
             price=f"${estimated_cost}",
             network="base-sepolia",
             resource=str(request.url),
-            description="Access to weather data",
+            description="Access OpenAI /responses endpoint",
         )
     ]
 
@@ -185,11 +185,20 @@ async def verify_x402_payment(request: Request, call_next):
         response_header = settle_response_header(settle_response)
 
     except PaymentRequiredException as e:
+        headers = {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "*",
+        "Access-Control-Allow-Headers": "*",
+        "Access-Control-Allow-Credentials": "true",
+    }
+
         return JSONResponse(
             status_code=402,
             content=e.error_data,
-            headers={"Content-Type": "application/json"},
+            headers=headers,
         )
+
 
     # Call next middleware/route
     try:
@@ -206,7 +215,8 @@ async def verify_x402_payment(request: Request, call_next):
         status_code=response.status_code,
         headers={
             **dict(response.headers),
-            "X-PAYMENT-RESPONSE": response_header
+            "X-PAYMENT-RESPONSE": response_header,
+            "Access-Control-Expose-Headers": "X-PAYMENT-RESPONSE"
         },
         media_type=response.media_type
     )

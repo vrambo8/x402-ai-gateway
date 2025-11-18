@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from app.config import settings
-from app.routes import proxy, health
+from app.routes import health, openai
 from app.middlewares import logging_middleware, auth_middleware
 from app.logging import setup_logging
 from app.payment.x402 import PaymentRequiredException
@@ -20,15 +20,25 @@ app = FastAPI(
 @app.exception_handler(PaymentRequiredException)
 async def payment_required_handler(request: Request, exc: PaymentRequiredException):
     """Handle payment required exceptions with proper 402 responses"""
+    # Include CORS headers in the 402 response
+    headers = {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "*",
+        "Access-Control-Allow-Headers": "*",
+        "Access-Control-Allow-Credentials": "true",
+    }
+
     return JSONResponse(
         status_code=402,
         content=exc.error_data,
-        headers={"Content-Type": "application/json"},
+        headers=headers,
     )
 
 # CORS
 app.add_middleware(
     CORSMiddleware,
+    allow_credentials=True,
     allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"]
@@ -40,7 +50,7 @@ app.middleware("http")(auth_middleware.verify_x402_payment)
 
 # Routes
 app.include_router(health.router, tags=["health"])
-app.include_router(proxy.router, tags=["proxy"])
+app.include_router(openai.router, tags=["proxy"])
 
 if __name__ == "__main__":
     import uvicorn

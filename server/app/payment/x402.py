@@ -110,7 +110,7 @@ async def verify_payment(
             x402_version=x402_VERSION,
             error="X-PAYMENT header is required",
             accepts=payment_requirements,
-        ).model_dump(by_alias=True)
+        ).model_dump(by_alias=True, exclude_none=True)
         raise PaymentRequiredException(error_data)
 
     try:
@@ -122,7 +122,7 @@ async def verify_payment(
             x402_version=x402_VERSION,
             error=str(e) or "Invalid or malformed payment header",
             accepts=payment_requirements,
-        ).model_dump(by_alias=True)
+        ).model_dump(by_alias=True, exclude_none=True)
         raise PaymentRequiredException(error_data)
 
     try:
@@ -137,7 +137,7 @@ async def verify_payment(
                 x402_version=x402_VERSION,
                 error=verify_response.invalid_reason or "Payment verification failed",
                 accepts=payment_requirements,
-            ).model_dump(by_alias=True)
+            ).model_dump(by_alias=True, exclude_none=True)
             raise PaymentRequiredException(error_data)
         
     except Exception as e:
@@ -145,7 +145,7 @@ async def verify_payment(
             x402_version=x402_VERSION,
             error=str(e),
             accepts=payment_requirements,
-        ).model_dump(by_alias=True)
+        ).model_dump(by_alias=True, exclude_none=True)
         raise PaymentRequiredException(error_data)
     
     return decoded_payment

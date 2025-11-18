@@ -1,0 +1,70 @@
+{
+    "id": "resp_05bede0a307616d0006919c12b24d0819390a8038af339193e",
+    "object": "response",
+    "created_at": 1763295531,
+    "status": "incomplete",
+    "background": false,
+    "billing": {
+        "payer": "developer"
+    },
+    "error": null,
+    "incomplete_details": {
+        "reason": "max_output_tokens"
+    },
+    "instructions": null,
+    "max_output_tokens": 16,
+    "max_tool_calls": null,
+    "model": "gpt-3.5-turbo-0125",
+    "output": [
+        {
+            "id": "msg_05bede0a307616d0006919c12bc470819384b855a3b5ae7039",
+            "type": "message",
+            "status": "incomplete",
+            "content": [
+                {
+                    "type": "output_text",
+                    "annotations": [],
+                    "logprobs": [],
+                    "text": "I'm here to help you with respectful and appropriate responses. If you have any"
+                }
+            ],
+            "role": "assistant"
+        }
+    ],
+    "parallel_tool_calls": true,
+    "previous_response_id": null,
+    "prompt_cache_key": null,
+    "prompt_cache_retention": null,
+    "reasoning": {
+        "effort": null,
+        "summary": null
+    },
+    "safety_identifier": null,
+    "service_tier": "default",
+    "store": true,
+    "temperature": 1.0,
+    "text": {
+        "format": {
+            "type": "text"
+        },
+        "verbosity": "medium"
+    },
+    "tool_choice": "auto",
+    "tools": [],
+    "top_logprobs": 0,
+    "top_p": 1.0,
+    "truncation": "disabled",
+    "usage": {
+        "input_tokens": 12,
+        "input_tokens_details": {
+            "cached_tokens": 0
+        },
+        "output_tokens": 16,
+        "output_tokens_details": {
+            "reasoning_tokens": 0
+        },
+        "total_tokens": 28
+    },
+    "user": null,
+    "metadata": {}
+}
