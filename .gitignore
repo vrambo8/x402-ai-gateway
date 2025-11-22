@@ -85,12 +85,35 @@ __pycache__/
 *.pem
 *.key
 *.crt
+*.p12
+*.pfx
 secrets/
+credentials/
+*.credentials
 
 # Local development
 .env.local
 .env.*.local
+.env.production
+.env.staging
 
 # Wallet backups (NEVER COMMIT PRIVATE KEYS!)
 wallet-backups/
 scripts/wallet-backups/
+*.wallet
+*.keystore
+
+# API Keys and tokens
+*_api_key*
+*_secret*
+*_token*
+*.private
+
+# Frontend build artifacts that might contain env vars
+frontend/.env.production.local
+frontend/.env.development.local
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
