@@ -11,23 +11,18 @@ class Settings(BaseSettings):
     redis_url: str = "redis://localhost:6379"
     database_url: str = "postgresql+asyncpg://proxy_user:proxy_pass@localhost:5432/proxy_db"
 
-    # x402 Payment
+    # x402 Facilitator
     x402_facilitator_url: str = "https://api.facilitator.example.com"
-    x402_wallet_address: str
+    cdp_api_key: str = "api_key"
+    cdp_api_key_secret: str = "secret"
+
+    # x402 Payment
+    x402_testnet_wallet_address: str  # Wallet address for testnet (Base Sepolia)
+    x402_mainnet_wallet_address: str  # Wallet address for mainnet (Base)
     x402_chain_id: Optional[int] = None  # If None, auto-set based on dev_mode (84532 testnet, 8453 mainnet)
     x402_testnet_chain_id: int = 84532  # Base Sepolia testnet
     x402_mainnet_chain_id: int = 8453  # Base mainnet
 
-    # Rate Limiting
-    rate_limit_rpm: int = 600  # Requests per minute
-    rate_limit_tpm: int = 40000  # Tokens per minute
-
-    # Costs & Pricing
-    default_transaction_fee_percent: float = 2.0  # 2% markup
-    minimum_cost_threshold: float = 0.0001  # Minimum to accept
-
-    # Monitoring
-    prometheus_port: int = 8001
     log_level: str = "INFO"
 
     # Server
@@ -53,6 +48,10 @@ class Settings(BaseSettings):
     def get_chain_id(self) -> int:
         """Get the active chain ID based on dev_mode"""
         return self.x402_testnet_chain_id if self.dev_mode else self.x402_mainnet_chain_id
+
+    def get_wallet_address(self) -> str:
+        """Get the active wallet address based on dev_mode"""
+        return self.x402_testnet_wallet_address if self.dev_mode else self.x402_mainnet_wallet_address
 
     def is_mock_mode(self) -> bool:
         """Check if OpenAI should be mocked (dev_mode)"""

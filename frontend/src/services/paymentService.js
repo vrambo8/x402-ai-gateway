@@ -2,7 +2,22 @@ import { createWalletClient, http } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { baseSepolia, base } from 'viem/chains';
 
-const CHAIN_ID = parseInt(import.meta.env.VITE_CHAIN_ID || '84532');
+// Get dev mode from environment (defaults to true for safety)
+export const DEV_MODE = import.meta.env.VITE_DEV_MODE === 'false' ? false : true;
+
+// Auto-determine chain ID based on dev mode, but allow override
+export const CHAIN_ID = import.meta.env.VITE_CHAIN_ID
+  ? parseInt(import.meta.env.VITE_CHAIN_ID)
+  : (DEV_MODE ? 84532 : 8453);
+
+// Auto-determine network name
+export const NETWORK_NAME = import.meta.env.VITE_NETWORK
+  || (DEV_MODE ? 'Base Sepolia (Testnet)' : 'Base Mainnet');
+
+// Get the appropriate basescan URL based on chain ID
+export const BASESCAN_URL = CHAIN_ID === 8453
+  ? 'https://basescan.org'
+  : 'https://sepolia.basescan.org';
 
 /**
  * Create a viem wallet client from ethers.js wallet

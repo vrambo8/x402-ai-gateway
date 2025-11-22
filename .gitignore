@@ -90,3 +90,7 @@ secrets/
 # Local development
 .env.local
 .env.*.local
+
+# Wallet backups (NEVER COMMIT PRIVATE KEYS!)
+wallet-backups/
+scripts/wallet-backups/

@@ -3,6 +3,7 @@ import WalletConnect from './components/WalletConnect';
 import ModelSelector from './components/ModelSelector';
 import ChatInterface from './components/ChatInterface';
 import { healthCheck } from './services/apiClient';
+import { NETWORK_NAME } from './services/paymentService';
 
 function App() {
   const [wallet, setWallet] = useState(null);
@@ -88,7 +89,7 @@ function App() {
           <p className="flex items-center justify-center gap-2 flex-wrap">
             <span className="text-slate-400">Powered by x402 Protocol</span>
             <span className="text-slate-600">•</span>
-            <span className="text-slate-400">Network: {import.meta.env.VITE_NETWORK || 'Base Sepolia (Testnet)'}</span>
+            <span className="text-slate-400">Network: {NETWORK_NAME}</span>
             <span className="text-slate-600">•</span>
             <span className="text-slate-400">Built with React + Tailwind</span>
           </p>

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { sendPrompt } from '../services/apiClient';
 import { MODEL_PRICING } from '../utils/models';
 import { formatCost } from '../utils/tokenCounter';
+import { BASESCAN_URL } from '../services/paymentService';
 import CostEstimator from './CostEstimator';
 
 export default function ChatInterface({ selectedModel, wallet }) {
@@ -164,7 +165,7 @@ export default function ChatInterface({ selectedModel, wallet }) {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                       </svg>
                       <a
-                        href={`https://sepolia.basescan.org/tx/${message.paymentStatus.transaction}`}
+                        href={`${BASESCAN_URL}/tx/${message.paymentStatus.transaction}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-cyan-400 hover:text-cyan-300 underline decoration-dotted transition-colors"

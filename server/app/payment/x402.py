@@ -16,18 +16,25 @@ from x402.types import (
     PaymentRequirements,
     Price,
     SupportedNetworks,
-    TokenAmount,
-    TokenAsset,
-    EIP712Domain,
     x402PaymentRequiredResponse,
     SettleResponse,
 )
 import os
+from cdp.x402 import create_facilitator_config
 
 logger = structlog.get_logger(__name__)
 
 
-facilitator_config: FacilitatorConfig = {"url": settings.x402_facilitator_url}
+
+
+if settings.dev_mode:
+    facilitator_config: FacilitatorConfig = {"url": settings.x402_facilitator_url}
+else:
+    facilitator_config = create_facilitator_config(
+        api_key_id=settings.cdp_api_key,
+        api_key_secret=settings.cdp_api_key_secret,
+    )
+
 facilitator = FacilitatorClient(facilitator_config)
 
 
@@ -72,7 +79,7 @@ def create_exact_payment_requirements(
         resource=resource,
         description=description,
         mime_type=mime_type,
-        pay_to=str(settings.x402_wallet_address),
+        pay_to=str(settings.get_wallet_address()),
         max_timeout_seconds=max_timeout_seconds,
         asset=asset_address,
         output_schema=None,

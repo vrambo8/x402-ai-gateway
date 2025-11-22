@@ -1,34 +1,20 @@
 from decimal import Decimal
 import json
-import os
-import base64
 from fastapi import Request
 from fastapi.responses import JSONResponse
 import structlog
 from app.payment.x402 import PaymentRequiredException, create_exact_payment_requirements, settle_payment, verify_payment
-from app.config import settings
 
 from fastapi import FastAPI, Request, Response
 from fastapi.responses import JSONResponse
-from x402.common import process_price_to_atomic_amount, x402_VERSION
-from x402.exact import decode_payment
-from x402.facilitator import FacilitatorClient, FacilitatorConfig
 from x402.encoding import safe_base64_encode
-from x402.common import find_matching_payment_requirements
 from x402.types import (
-    PaymentPayload,
-    PaymentRequirements,
-    Price,
-    SupportedNetworks,
-    TokenAmount,
-    TokenAsset,
-    EIP712Domain,
-    x402PaymentRequiredResponse,
     SettleResponse,
 )
 
 from app.cost.pricing_engine import PricingEngine
 from app.cost.token_counter import count_message_tokens, count_tokens
+from app.config import settings
 
 
 logger = structlog.get_logger(__name__)
@@ -167,10 +153,13 @@ async def verify_x402_payment(request: Request, call_next):
     # Estimate cost and get request metadata
     estimated_cost, model, input_tokens = estimate_cost(body)
 
+    # Use the appropriate network based on dev_mode
+    network = "base-sepolia" if settings.dev_mode else "base"
+
     payment_requirements = [
         create_exact_payment_requirements(
             price=f"${estimated_cost}",
-            network="base-sepolia",
+            network=network,
             resource=str(request.url),
             description="Access OpenAI /responses endpoint",
         )
