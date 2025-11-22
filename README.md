@@ -77,7 +77,7 @@ Before you begin, ensure you have:
 - **For frontend**: Node.js 18+ and npm
 - **Required credentials**:
   - OpenAI API key ([get one here](https://platform.openai.com/api-keys))
-  - Ethereum wallet address on Base network and CDP credentials for facilitator on mainnet (for receiving payments)
+  - Ethereum wallet address on Base network and CDP ([get one here](https://docs.cdp.coinbase.com/x402/quickstart-for-sellers#1-set-up-cdp-api-keys)) for facilitator on mainnet (for receiving payments)
   - Optional: Private key (for making payments as a client)
 
 ### Option 1: Docker Deployment (Recommended)
